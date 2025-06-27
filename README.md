@@ -70,10 +70,10 @@ pytest
 #### Classic MCTS
 The classic Monte Carlo Tree Search uses four phases:
 
-Selection: Traverse the tree using PUCT formula
-Expansion: Add a new node to the tree
-Simulation: Play a random game from the new node
-Backpropagation: Update node statistics based on the game outcome
+1. Selection: Traverse the tree using PUCT formula
+1. Expansion: Add a new node to the tree
+1. Simulation: Play a random game from the new node
+1. Backpropagation: Update node statistics based on the game outcome
 
 #### Neural Network Enhanced MCTS
 Similar to AlphaZero, this version:
