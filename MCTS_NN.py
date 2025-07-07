@@ -144,7 +144,7 @@ class MCTS_Deep:
             
         path.append((node, action))
         
-        # Continue selecting until we find a node that hasn't been expanded
+        # Continue selecting until we find a node that hasn't been initialized
         while action is not None and node.children[action] is not None:
             node = node.children[action]
             
@@ -169,13 +169,13 @@ class MCTS_Deep:
             
         node, action = path[-1]
         
-        # If already expanded, return existing child
+        # If already expanded, return existing child (only happens with terminal nodes)
         if node.children[action] is not None:
             return node.children[action]
             
         # Otherwise create a new node
-        next_state = node.state.step(action)
-        node.children[action] = Deep_Node(next_state, self.model)
+        next_state = node.state.step(action)  # Apply the action to get the next state
+        node.children[action] = Deep_Node(next_state, self.model) # Create a new child node with the next state and model (handles initialization)
         
         return node.children[action]
 
@@ -191,7 +191,7 @@ class MCTS_Deep:
         if not path:
             return
             
-        # Start with the value from the leaf node's perspective
+        # Start with the value from the leaf node's perspective (for this implementation, we assume the value of each node is with respect to itself)
         action = path[-1][1]
         leaf_player = path[-1][0].children[action].player
         
@@ -212,7 +212,7 @@ class MCTS_Deep:
                 
             # Update node value (weighted average)
             prev_value = node.value
-            # Update value based on the leaf player's perspective (this is the value we are propagating up)
+            # Update value based on the leaf player's perspective (this is the value we are propagating up) (simple average)
             node.value = ((node.N_visits - 1) * prev_value + (value * (leaf_player * node.player))) / node.N_visits
 
 
